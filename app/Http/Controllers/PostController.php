@@ -14,13 +14,29 @@ class PostController extends Controller
      *
      * @return \Illuminate\Contracts\View\View;
      */
-    public function index()
+    public function index(Request $request)
     {
+         $SORT_PARAMS = [
+            'publication_date' => 'Date Published',
+        ];
+    
+         $SORT_DIRECTIONS = [
+            'asc' => 'Ascending',
+            'desc' => 'Descending',
+        ];
+
+       
+
+
         return view('posts.index',[
             'posts' => Post::query()
                 ->select(['title', 'description', 'slug', 'publication_date'])
-                ->where('user_id', Auth::id())
-                ->simplePaginate(10)
+                ->where('user_id', auth()->id())
+                ->orderBy($request->sort_by ?? 'id', $request->direction ?? 'desc')
+                ->simplePaginate(10)->appends($request->all()),
+
+            'sort_params' => $SORT_PARAMS,
+            'directions' => $SORT_DIRECTIONS,
         ]);
     }
 
