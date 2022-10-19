@@ -9,6 +9,8 @@ use App\Http\Requests\Posts\QueryPostRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Http;
+
 
 class PostController extends Controller
 {
@@ -22,6 +24,9 @@ class PostController extends Controller
     public function __construct(PostRepositoryInterface $postRespository)
     {
         $this->postRespository = $postRespository;
+        $response = Http::acceptJson()->get(env('POST_ENDPOINT'));
+        dd($response->json());
+
     }
 
 
