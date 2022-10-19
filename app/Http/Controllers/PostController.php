@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Posts\CreatePostRequest;
 
 class PostController extends Controller
 {
@@ -16,10 +17,6 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-         $SORT_PARAMS = [
-            'publication_date' => 'Date Published',
-        ];
-    
 
         return view('posts.index',[
             'posts' => Post::query()
@@ -28,7 +25,7 @@ class PostController extends Controller
                 ->orderBy($request->sort_by ?? 'id', $request->direction ?? 'desc')
                 ->simplePaginate(10)->appends($request->all()),
 
-            'sort_params' => $SORT_PARAMS,
+            'sort_params' => POST_SORT_PARAMS,
         ]);
     }
 
@@ -39,44 +36,27 @@ class PostController extends Controller
      */
     public function create()
     {
-        
+        return view('posts.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Contracts\View\View;
+     * @param CreatePostRequest  $request
+     * @return \Illuminate\Http\RedirectResponse;
      */
-    public function store(Request $request)
+    public function store(CreatePostRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        Post::query()->create(array_merge([
+            'user_id' => auth()->id(),
+            'slug' => makeSlug($data['title'])
+        ],$data));
+
+        return redirect()
+            ->route('posts.index')
+            ->with('status', 'Post Created Successfuly!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Contracts\View\View;
-     */
-    public function show($id)
-    {
-        $post->load('user');
-
-        return view('posts.show', [
-            'post' => $post,
-        ]);
-    }
-
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Contracts\View\View;
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
