@@ -2,30 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
+use App\Interfaces\PostRepositoryInterface;
+use App\Http\Requests\Posts\CreatePostRequest;
+use App\Http\Requests\Posts\QueryPostRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
-use App\Models\Post;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Posts\CreatePostRequest;
 
 class PostController extends Controller
 {
+
+    /**
+     * @var PostRepositoryInterface
+     */
+    private $postRespository;
+
+
+    public function __construct(PostRepositoryInterface $postRespository)
+    {
+        $this->postRespository = $postRespository;
+    }
+
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Contracts\View\View;
      */
-    public function index(Request $request)
+    public function index(QueryPostRequest $request)
     {
+        $data = $request->validated();
 
         return view('posts.index',[
-            'posts' => Post::query()
-                ->select(['title', 'description', 'slug', 'publication_date'])
-                ->where('user_id', auth()->id())
-                ->orderBy($request->sort_by ?? 'id', $request->direction ?? 'desc')
-                ->simplePaginate(10)->appends($request->all()),
-
-            'sort_params' => POST_SORT_PARAMS,
+            'posts' => $this->postRespository->getUserPosts($data['sort_by'] ?? 'id', $data['sort_direction'] ?? 'desc', $data['per_page'] ?? 10),
+            'sort_fields' => POST_SORT_PARAMS,
         ]);
     }
 
@@ -45,18 +56,18 @@ class PostController extends Controller
      * @param CreatePostRequest  $request
      * @return \Illuminate\Http\RedirectResponse;
      */
-    public function store(CreatePostRequest $request)
+    public function store(CreatePostRequest $request): RedirectResponse
     {
         $data = $request->validated();
 
-        Post::query()->create(array_merge([
+        $body = array_merge([
             'user_id' => auth()->id(),
             'slug' => makeSlug($data['title'])
-        ],$data));
+        ],$data);
 
-        return redirect()
-            ->route('posts.index')
-            ->with('status', 'Post Created Successfuly!');
+        $this->postRespository->create($body);
+
+        return redirect()->route('posts.index')->with('status', 'Post Created Successfuly!');
     }
 
 }

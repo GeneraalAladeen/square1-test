@@ -18,19 +18,19 @@
                                         <select id="sort" name="sort_by"
                                                 class="mt-1 block py-2 px-6 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                             <option value="" selected ></option>
-                                            @foreach($sort_params as $key => $param)
-                                                <option value="{{$key}}" @if( request()->query('sort_by') === $key ) selected @endif>{{ $param }}</option>
+                                            @foreach($sort_fields as $key => $value)
+                                                <option value="{{$key}}" @if( request()->query('sort_by') === $key ) selected @endif>{{ $value }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                     
                                     <div class="">
                                         <label for="direction" >Sort Direction</label>
-                                        <select id="direction" name="direction"
+                                        <select id="direction" name="sort_direction"
                                                 class="mt-1 block w-full py-2 px-6 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                             <option value="" selected></option>
-                                            <option value="asc" @if( request()->query('direction') === 'asc' ) selected @endif>Ascending</option>
-                                            <option value="desc" @if( request()->query('direction') === 'desc' ) selected @endif>Descending</option>
+                                            <option value="asc" @if( request()->query('sort_direction') === 'asc' ) selected @endif>Ascending</option>
+                                            <option value="desc" @if( request()->query('sort_direction') === 'desc' ) selected @endif>Descending</option>
                                         </select>
                                     </div>
                                 </div>
