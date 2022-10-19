@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{PostController, DashboardController };
+use App\Http\Controllers\{PostController, DashboardController , HomeController };
 
 /*
 |--------------------------------------------------------------------------
@@ -14,13 +14,12 @@ use App\Http\Controllers\{PostController, DashboardController };
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('{post:slug}', [HomeController::class, 'show'])->name('posts.show');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('posts', PostController::class)->only(['index', 'create', 'store', 'show']);
+    Route::resource('posts', PostController::class)->only(['index', 'create', 'store']);
 });
 
 

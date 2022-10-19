@@ -27,6 +27,23 @@ class PostRepository implements PostRepositoryInterface
             ->simplePaginate($perPage);
     }
 
+     /**
+     * Get all posts 
+     * 
+     * @param string $sortBy
+     * @param string $sortDirection
+     * @param int $perPage
+     * 
+     * @return Paginator
+     */
+    public function getPaginate(string $sortBy = 'id', string $sortDirection = 'desc', int $perPage = 10): Paginator
+    {
+        return Post::query()
+        ->with(['user'])
+            ->orderBy($sortBy, $sortDirection)
+            ->simplePaginate($perPage);
+    }
+
 
     /**
      * Create new post

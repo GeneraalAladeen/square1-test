@@ -27,7 +27,7 @@ class QueryPostRequest extends FormRequest
     {
         return [
             'per_page' => 'nullable|integer',
-            'sort_by' => ['nullable', 'string', Rule::in(array_keys(\POST_SORT_PARAMS))],
+            'sort_by' => ['nullable', 'string', Rule::in(array_keys(POST_SORT_FIELDS))],
             'sort_direction' =>  ['nullable', 'string', Rule::in(['asc' , 'desc'])]
         ];
     }

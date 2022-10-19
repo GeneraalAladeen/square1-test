@@ -24,24 +24,21 @@ class PostController extends Controller
     public function __construct(PostRepositoryInterface $postRespository)
     {
         $this->postRespository = $postRespository;
-        $response = Http::acceptJson()->get(env('POST_ENDPOINT'));
-        dd($response->json());
-
     }
 
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\View\View;
+     * @return View;
      */
-    public function index(QueryPostRequest $request)
+    public function index(QueryPostRequest $request): View
     {
         $data = $request->validated();
 
         return view('posts.index',[
             'posts' => $this->postRespository->getUserPosts($data['sort_by'] ?? 'id', $data['sort_direction'] ?? 'desc', $data['per_page'] ?? 10),
-            'sort_fields' => POST_SORT_PARAMS,
+            'sort_fields' => POST_SORT_FIELDS,
         ]);
     }
 
@@ -50,7 +47,7 @@ class PostController extends Controller
      *
      * @return \Illuminate\Contracts\View\View;
      */
-    public function create()
+    public function create(): View
     {
         return view('posts.create');
     }

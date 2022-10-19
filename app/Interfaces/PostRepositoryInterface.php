@@ -24,4 +24,14 @@ interface PostRepositoryInterface
      * @return Paginator
      */
     public function getUserPosts(string $sortBy, string $sortDirection, int $perPage): Paginator;
+
+      /**
+     * 
+     * @param string $sortBy
+     * @param string $sortDirection
+     * @param int $perPage
+     * 
+     * @return Paginator
+     */
+    public function getPaginate(string $sortBy, string $sortDirection, int $perPage): Paginator;
 }
