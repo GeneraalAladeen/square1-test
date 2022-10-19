@@ -20,13 +20,6 @@ class PostController extends Controller
             'publication_date' => 'Date Published',
         ];
     
-         $SORT_DIRECTIONS = [
-            'asc' => 'Ascending',
-            'desc' => 'Descending',
-        ];
-
-       
-
 
         return view('posts.index',[
             'posts' => Post::query()
@@ -36,7 +29,6 @@ class PostController extends Controller
                 ->simplePaginate(10)->appends($request->all()),
 
             'sort_params' => $SORT_PARAMS,
-            'directions' => $SORT_DIRECTIONS,
         ]);
     }
 
@@ -47,7 +39,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**

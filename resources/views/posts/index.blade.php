@@ -11,34 +11,35 @@
                 <form action="{{ route('posts.index') }}" method="get">
                     <div class="block">
                         <div class="px-4 py-2">
-                            <div class="flex justify-between  items-center gap-6">
-                                <div class="col-span-5 sm:col-span-3 lg:col-start-8 lg:col-span-2">
-                                    <label for="sort" >Sort By</label>
-                                    <select id="sort" name="sort_by"
-                                            class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                        <option value="" selected ></option>
-                                        @foreach($sort_params as $key => $param)
-                                            <option value="{{$key}}" @if( request()->query('sort_by') === $key ) selected @endif>{{ $param }}</option>
-                                        @endforeach
-                                    </select>
+                            <div class="flex justify-between  items-center">
+                                <div class="flex gap-3">
+                                    <div class="">
+                                        <label for="sort" >Sort By</label>
+                                        <select id="sort" name="sort_by"
+                                                class="mt-1 block py-2 px-6 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                            <option value="" selected ></option>
+                                            @foreach($sort_params as $key => $param)
+                                                <option value="{{$key}}" @if( request()->query('sort_by') === $key ) selected @endif>{{ $param }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                    
+                                    <div class="">
+                                        <label for="direction" >Sort Direction</label>
+                                        <select id="direction" name="direction"
+                                                class="mt-1 block w-full py-2 px-6 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                            <option value="" selected></option>
+                                            <option value="asc" @if( request()->query('direction') === 'asc' ) selected @endif>Ascending</option>
+                                            <option value="desc" @if( request()->query('direction') === 'desc' ) selected @endif>Descending</option>
+                                        </select>
+                                    </div>
                                 </div>
                 
-                                <div class="col-span-5 sm:col-span-3 lg:col-span-2">
-                                    <label for="direction" >Sort Direction</label>
-                                    <select id="direction" name="direction"
-                                            class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                        <option value="" selected></option>
-                                        @foreach($directions as $key => $direction)
-                                            <option value="{{$key}}" @if( request()->query('direction') === $key ) selected @endif>{{ $direction }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                
-                                <div class="col-span-2 sm:col-span-3 lg:col-span-1">
-                                    <x-button class="mt-1 text-base text-center">
-                                        {{ __('Sort') }}
-                                    </x-button>
-                                </div>
+                                <x-button class="mt-1 text-base text-center">
+                                    {{ __('Sort') }}
+                                </x-button>
+                               
+                               
                             </div>
                         </div>
                     </div>
@@ -47,9 +48,14 @@
         </div>
     </div>
 
-    <div class="py-8 my-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+    <div class=" my-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="flex justify-end py-4">
+                <a href={{ route('posts.create')}}>
+                    <x-button class="text-base"> {{ __('Create Post') }}</x-button>
+                </a>
+            </div>
+            <div class=" shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left text-gray-500 ">
                     <thead class="py-10 text-2xl text-gray-700 uppercase bg-gray-50">
                         <tr class="py-4">
@@ -84,7 +90,7 @@
                 </table>
             </div>
  
-            <div class="max-w-md mx-auto px-8 py-4">
+            <div class="flex justify-end gap-2 py-4">
                 {{ $posts->links() }}
             </div>
         </div>
