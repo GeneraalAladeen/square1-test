@@ -13,14 +13,13 @@ use App\Http\Controllers\{PostController, DashboardController , HomeController }
 | contains the "web" middleware group. Now create something great!
 |
 */
+require __DIR__.'/auth.php';
+
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::resource('posts', PostController::class)->only(['index', 'create', 'store']);
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('{post:slug}', [HomeController::class, 'show'])->name('posts.show');
-
-Route::group(['middleware' => ['auth']], function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('posts', PostController::class)->only(['index', 'create', 'store']);
-});
-
-
-require __DIR__.'/auth.php';

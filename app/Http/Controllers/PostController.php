@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\RedirectResponse;
 
 
 class PostController extends Controller
@@ -56,7 +57,7 @@ class PostController extends Controller
      * Store a newly created resource in storage.
      *
      * @param CreatePostRequest  $request
-     * @return \Illuminate\Http\RedirectResponse;
+     * @return RedirectResponse;
      */
     public function store(CreatePostRequest $request): RedirectResponse
     {
