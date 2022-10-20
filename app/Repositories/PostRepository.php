@@ -6,16 +6,15 @@ use App\Models\Post;
 use App\Interfaces\PostRepositoryInterface;
 use Illuminate\Contracts\Pagination\Paginator;
 
-
-class PostRepository implements PostRepositoryInterface 
+class PostRepository implements PostRepositoryInterface
 {
     /**
      * Get posts that belongs to authenticated user
-     * 
+     *
      * @param string $sortBy
      * @param string $sortDirection
      * @param int $perPage
-     * 
+     *
      * @return Paginator
      */
     public function getUserPosts(string $sortBy = 'id', string $sortDirection = 'desc', int $perPage = 10): Paginator
@@ -28,12 +27,12 @@ class PostRepository implements PostRepositoryInterface
     }
 
      /**
-     * Get all posts 
-     * 
+     * Get all posts
+     *
      * @param string $sortBy
      * @param string $sortDirection
      * @param int $perPage
-     * 
+     *
      * @return Paginator
      */
     public function getPaginate(string $sortBy = 'id', string $sortDirection = 'desc', int $perPage = 10): Paginator
@@ -47,14 +46,13 @@ class PostRepository implements PostRepositoryInterface
 
     /**
      * Create new post
-     * 
+     *
      * @param array $data
-     * 
+     *
      * @return Post
      */
     public function create(array $data): Post
     {
         return Post::create($data);
     }
-
 }

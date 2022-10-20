@@ -26,7 +26,7 @@ class FetchPosts extends Command
     protected $description = 'Fetch new posts from external api and add to database';
 
     /**
-     * 
+     *
      * @var PostRepositoryInterface
      */
     private $postRepository;
@@ -51,31 +51,26 @@ class FetchPosts extends Command
     {
         try {
             $response = Http::get(config('services.post.endpoint'));
-            
-            if( $response->failed() ){
+
+            if ($response->failed()) {
                 return Log::error('An error was encountered while fetching posts', $response->json());
             }
 
-            $articles = $response->json('articles');
-
             $admin = User::query()->select(['id'])->where('username', 'admin')->firstOrFail();
-            
-            DB::transaction(function () use ($admin , $articles) {
-                foreach( $articles as $article ) {
+
+            DB::transaction(function () use ($admin, $articles) {
+                foreach ($articles as $article) {
                     $this->postRepository->create(array_merge([
                         'user_id' => $admin->id,
                         'publication_date' => now(),
                         'slug' => makeSlug($article['title'])
-                    ] , $article));
+                    ], $article));
                 }
             });
 
-
-        $this->info($response->json('count'). ' posts fetched successfully!');
-        
-        }  catch (\Throwable $exception) {
+            $this->info($response->json('count'). ' posts fetched successfully!');
+        } catch (\Throwable $exception) {
             Log::error($exception->getMessage());
         }
-        
     }
 }

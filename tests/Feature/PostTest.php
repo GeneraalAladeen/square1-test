@@ -16,7 +16,7 @@ class PostTest extends TestCase
     {
         $this->actingAs(User::factory()->create());
 
-        $title =  $this->faker->title;
+        $title =  $this->faker->sentence();
 
         $response = $this->post('/posts', [
             'title' =>  $title,
@@ -36,6 +36,13 @@ class PostTest extends TestCase
     public function test_guest_cannot_create_post(): void
     {
         $this->get('/posts/create')->assertRedirect('/login');
+    }
+
+    public function test_all_posts_params_are_required()
+    {
+        $this->actingAs(User::factory()->create());
+
+        $this->post('/posts', )->assertSessionHasErrors(['title' , 'description' ,'publication_date']);
     }
 
     public function test_post_data_can_be_rendered(): void
