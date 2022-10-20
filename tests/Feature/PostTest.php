@@ -2,10 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Models\{ Post, User };
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Contracts\Pagination\Paginator;
 use Tests\TestCase;
-use App\Models\{ Post, User };
 
 class PostTest extends TestCase
 {
@@ -57,5 +58,26 @@ class PostTest extends TestCase
             ->assertViewHas('post', function (Post $renderedPost) use ($post) {
                 return $post->title === $renderedPost->title;
             });
+    }
+
+
+    public function test_guest_can_view_posts_on_homepage(): void
+    {
+        $response = $this->get('/');
+
+        $response->assertStatus(200)
+            ->assertViewHas('posts', fn ($posts) => $posts instanceof Paginator)
+            ->assertViewHasAll(['posts', 'sort_fields']);
+    }
+
+    public function test_posts_can_be_sorted_by_publication_date(): void
+    {
+        User::factory()->hasPosts(20)->create();
+
+        $sortDirection = $this->faker->randomElement(['asc', 'desc']);
+
+        $response = $this->get("/?sort_by=publication_date&direction=$sortDirection");
+
+        $response->assertViewHas('posts', fn (Paginator $posts) => $posts->isNotEmpty());
     }
 }
