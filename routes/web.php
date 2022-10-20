@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\{PostController, DashboardController , HomeController };
 
 /*
 |--------------------------------------------------------------------------
@@ -12,13 +13,13 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+require __DIR__.'/auth.php';
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::resource('posts', PostController::class)->only(['index', 'create', 'store']);
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
-require __DIR__.'/auth.php';
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('{post:slug}', [HomeController::class, 'show'])->name('posts.show');

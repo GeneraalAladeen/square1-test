@@ -30,4 +30,7 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'post' => [
+        'endpoint' => env('POST_ENDPOINT', 'https://candidate-test.sq1.io/api.php')
+    ]
 ];
