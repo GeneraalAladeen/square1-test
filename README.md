@@ -43,7 +43,7 @@ This application makes use of laravel task scheduler to schedule the command res
 
 First ensure the `POST_ENDPOINT` env variable is set to the new posts endpoint
 
-    `POST_ENDPOINT=https://candidate-test.sq1.io/api.php`
+    POST_ENDPOINT=https://candidate-test.sq1.io/api.php
   
 The task scheduler can be started locally by running the command
 
