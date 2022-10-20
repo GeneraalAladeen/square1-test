@@ -39,18 +39,18 @@ You can now access the server at http://localhost:8000
 
 ## Task Scheduling
 
-- This application makes use of laravel task scheduler to schedule the command responsible for fetch posts from external API
+This application makes use of laravel task scheduler to schedule the command responsible for fetch posts from external API
 
-- First ensure the `POST_ENDPOINT` env variable is set to the new posts endpoint
+First ensure the `POST_ENDPOINT` env variable is set to the new posts endpoint
 
     `POST_ENDPOINT=https://candidate-test.sq1.io/api.php`
   
-- The task scheduler can be started locally by running the command
+The task scheduler can be started locally by running the command
 
     php artisan schedule:work
 
 
-- Alternatively, the scheduled command can be run from the command line by running the custom artisan command
+Alternatively, the scheduled command can be run from the command line by running the custom artisan command
 
     php artisan post:fetch
 
