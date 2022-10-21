@@ -826,9 +826,6 @@ select {
 .max-w-6xl {
   max-width: 72rem;
 }
-.max-w-md {
-  max-width: 28rem;
-}
 .max-w-xl {
   max-width: 36rem;
 }
@@ -1123,6 +1120,10 @@ select {
   font-size: 1.125rem;
   line-height: 1.75rem;
 }
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
 .text-base {
   font-size: 1rem;
   line-height: 1.5rem;
@@ -1258,9 +1259,6 @@ select {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(209 213 219 / var(--tw-ring-opacity));
 }
-.ring-slate-900\/5 {
-  --tw-ring-color: rgb(15 23 42 / 0.05);
-}
 .ring-black {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(0 0 0 / var(--tw-ring-opacity));
@@ -1301,10 +1299,6 @@ select {
   --tw-bg-opacity: 1;
   background-color: rgb(55 65 81 / var(--tw-bg-opacity));
 }
-.hover\:bg-sky-300:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(125 211 252 / var(--tw-bg-opacity));
-}
 .hover\:bg-gray-100:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
@@ -1335,10 +1329,6 @@ select {
 }
 .hover\:underline:hover {
   text-decoration-line: underline;
-}
-.hover\:ring-sky-300:hover {
-  --tw-ring-opacity: 1;
-  --tw-ring-color: rgb(125 211 252 / var(--tw-ring-opacity));
 }
 .focus\:z-10:focus {
   z-index: 10;
@@ -1433,10 +1423,6 @@ select {
 }
 .disabled\:opacity-25:disabled {
   opacity: 0.25;
-}
-.group:hover .group-hover\:text-white {
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 @media (prefers-color-scheme: dark) {
 
