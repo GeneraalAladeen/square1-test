@@ -58,6 +58,8 @@ class FetchPosts extends Command
 
             $admin = User::query()->select(['id'])->where('username', 'admin')->firstOrFail();
 
+            $articles = $response->json('articles');
+
             DB::transaction(function () use ($admin, $articles) {
                 foreach ($articles as $article) {
                     $this->postRepository->create(array_merge([
