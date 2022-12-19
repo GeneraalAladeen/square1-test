@@ -23,7 +23,8 @@ class PostRepository implements PostRepositoryInterface
             ->select(['title', 'description', 'slug', 'publication_date'])
             ->where('user_id', auth()->id())
             ->orderBy($sortBy, $sortDirection)
-            ->simplePaginate($perPage);
+            ->simplePaginate($perPage)
+            ->withQueryString();
     }
 
      /**
